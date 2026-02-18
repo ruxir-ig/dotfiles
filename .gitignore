@@ -1,0 +1,29 @@
+# Fish runtime state
+.config/fish/fish_variables
+.config/fish/completions/
+
+# Btop themes (usually from package manager)
+.config/btop/themes/
+
+# Cava shaders/themes (if auto-generated)
+.config/cava/shaders/
+
+# Rofi image cache
+.config/rofi/images/
+
+# Hyprland backups (auto-generated)
+.config/hypr/*.backup*
+
+# Ghostty backups
+.config/ghostty/*.backup*
+
+# Editor swap/backup files
+*~
+*.swp
+*.swo
+*.bak
+\#*\#
+
+# OS files
+.DS_Store
+Thumbs.db

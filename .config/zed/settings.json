@@ -1,0 +1,81 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "agent_servers": {
+    "opencode": {
+      "type": "extension",
+      "favorite_models": [
+        "github-copilot/gpt-5.2-codex/medium",
+        "github-copilot/gpt-5.2-codex/high",
+        "github-copilot/gpt-5.2-codex/xhigh",
+        "opencode/glm-4.7-free",
+        "opencode/kimi-k2.5-free",
+        "opencode/minimax-m2.1-free"
+      ]
+    }
+  },
+  "vim_mode": true,
+  "disable_ai": false,
+  "agent": {
+    "favorite_models": [
+      {
+        "provider": "copilot_chat",
+        "model": "gpt-5.2-codex"
+      },
+      {
+        "provider": "copilot_chat",
+        "model": "claude-opus-4.5"
+      },
+      {
+        "provider": "copilot_chat",
+        "model": "oswe-vscode-prime"
+      },
+      {
+        "provider": "copilot_chat",
+        "model": "gemini-3-flash-preview"
+      },
+      {
+        "provider": "copilot_chat",
+        "model": "gpt-5.1-codex-mini"
+      }
+    ],
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "grok-code-fast-1"
+    },
+    "model_parameters": []
+  },
+  "ui_font_weight": 400.0,
+  "ui_font_family": ".ZedSans",
+  "icon_theme": {
+    "mode": "dark",
+    "light": "Zed (Default)",
+    "dark": "Zed (Default)"
+  },
+  "terminal": {
+    "cursor_shape": "bar"
+  },
+  "minimap": {
+    "show": "never"
+  },
+  "cursor_blink": true,
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000
+    }
+  },
+  "buffer_font_family": "GeistMono Nerd Font Mono",
+  "base_keymap": "VSCode",
+  "buffer_font_size": 15.0,
+  "theme": {
+    "mode": "dark",
+    "light": "Ayu Dark",
+    "dark": "Cursor Blur"
+  }
+}

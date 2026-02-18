@@ -1,0 +1,47 @@
+
+[font]
+normal = { family = "GeistMono Nerd Font Mono", style = "Regular" }
+bold = { family = "GeistMono Nerd Font Mono", style = "Bold" }
+italic = { family = "GeistMono Nerd Font Mono", style = "Italic" }
+bold_italic = { family = "GeistMono Nerd Font Mono", style = "Bold Italic" }
+size = 13.0
+
+[window]
+decorations = "None"
+padding = { x = 15, y = 15 }
+opacity = 0.70
+blur = true
+dynamic_title = true
+
+[cursor]
+style = { shape = "Block", blinking = "On" }
+blink_interval = 750
+unfocused_hollow = true
+
+[mouse]
+hide_when_typing = true
+
+[scrolling]
+history = 25000
+multiplier = 3
+
+[terminal]
+shell = { program = "zsh" }
+
+[bell]
+duration = 0
+
+[selection]
+save_to_clipboard = true
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\n"
+
+[general]
+# ┏┏ ┏━┃━┏┛┏━┛┏━┃┛┏━┃┃    ┃ ┃┏━┃┃ ┃  ┃ ┃┃ ┃┏━┃┏━┃┃  ┏━┃┏━ ┏━
+# ┃┃┃┏━┃ ┃ ┏━┛┏┏┛┃┏━┃┃  ━┛━┏┛┃ ┃┃ ┃  ┏━┃━┏┛┏━┛┏┏┛┃  ┏━┃┃ ┃┃ ┃
+# ┛┛┛┛ ┛ ┛ ━━┛┛ ┛┛┛ ┛━━┛   ┛ ━━┛━━┛  ┛ ┛ ┛ ┛  ┛ ┛━━┛┛ ┛┛ ┛━━
+
+import = ["dank-theme.toml"]

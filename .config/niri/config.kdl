@@ -1,0 +1,577 @@
+// Niri Configuration
+// Ported from Hyprland config
+// https://github.com/YaLTeR/niri
+
+// ==================
+// INPUT CONFIG
+// ==================
+input {
+    keyboard {
+        xkb {
+            layout "us"
+        }
+        numlock
+    }
+
+    mouse {
+        // accel-profile "flat"
+    }
+
+    touchpad {
+        tap
+        natural-scroll
+    }
+}
+
+// ==================
+// OUTPUT / MONITOR CONFIG
+// ==================
+output "eDP-1" {
+    mode "1920x1080@144.023"
+    scale 1.0
+    position x=0 y=0
+}
+
+// ==================
+// ENVIRONMENT VARIABLES
+// ==================
+environment {
+    // --- XDG Session ---
+    XDG_CURRENT_DESKTOP "niri"
+    XDG_SESSION_TYPE "wayland"
+    XDG_SESSION_DESKTOP "niri"
+
+    // --- Toolkit / Wayland defaults ---
+    GDK_BACKEND "wayland,x11"
+    QT_QPA_PLATFORM "wayland;xcb"
+    SDL_VIDEODRIVER "wayland"
+    CLUTTER_BACKEND "wayland"
+    MOZ_ENABLE_WAYLAND "1"
+
+    // --- Qt tweaks ---
+    QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
+    QT_QPA_PLATFORMTHEME "qt6ct"
+    QT_AUTO_SCREEN_SCALE_FACTOR "1"
+
+    // --- Electron ---
+    ELECTRON_OZONE_PLATFORM_HINT "auto"
+
+    // --- NVIDIA decode (safe; does not force rendering on dGPU) ---
+    LIBVA_DRIVER_NAME "nvidia"
+    NVD_BACKEND "direct"
+    __GLX_VENDOR_LIBRARY_NAME "nvidia"
+    GBM_BACKEND "nvidia-drm"
+
+    // --- NVIDIA cursor workaround ---
+    WLR_NO_HARDWARE_CURSORS "1"
+
+    // --- Cursor theme ---
+    XCURSOR_THEME "macos-tahoe-cursor"
+    XCURSOR_SIZE "24"
+    HYPRCURSOR_THEME "macos-tahoe-cursor"
+    HYPRCURSOR_SIZE "24"
+}
+
+// ==================
+// CURSOR
+// ==================
+cursor {
+    xcursor-theme "macos-tahoe-cursor"
+    xcursor-size 24
+}
+
+// ==================
+// LAYOUT (gaps, borders, focus ring)
+// ==================
+layout {
+    gaps 5
+    background-color "transparent"
+
+    center-focused-column "never"
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+
+    default-column-width { proportion 0.5; }
+
+    focus-ring {
+        width 2
+        active-color "#c4c0ff"
+        inactive-color "#928f99"
+    }
+
+    border {
+        off
+        width 2
+        active-color "#c4c0ff"
+        inactive-color "#928f99"
+    }
+
+    shadow {
+        on
+        softness 30
+        spread 5
+        offset x=0 y=5
+        color "#00000070"
+    }
+}
+
+// ==================
+// STARTUP APPS
+// ==================
+spawn-at-startup "dbus-update-activation-environment" "--systemd" "--all"
+spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets,ssh"
+spawn-at-startup "vicinae" "server"
+spawn-at-startup "flameshot"
+
+// Clipboard history
+spawn-sh-at-startup "wl-paste --watch cliphist store &"
+
+// ==================
+// MISC
+// ==================
+prefer-no-csd
+
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+hotkey-overlay {
+    skip-at-startup
+}
+
+// ==================
+// ANIMATIONS
+// ==================
+animations {
+    // Uncomment to disable all animations
+    // off
+
+    // Slow down all animations (values below 1 speed them up)
+    // slowdown 1.0
+}
+
+// ==================
+// OVERVIEW
+// ==================
+overview {
+    // Zoom level (0 to 0.75, lower = smaller thumbnails)
+    zoom 0.5
+    backdrop-color "#0e1415"
+}
+
+// ==================
+// LAYER RULES (DMS Integration + Blur)
+// ==================
+
+// DMS Quickshell: place in overview backdrop
+layer-rule {
+    match namespace="^quickshell$"
+    place-within-backdrop true
+}
+
+// DMS blur wallpaper layer
+layer-rule {
+    match namespace="dms:blurwallpaper"
+    place-within-backdrop true
+}
+
+// Vicinae: shadow + blur (niri layer blur is limited)
+// Note: Niri doesn't have built-in blur like Hyprland
+// Blur for layers requires external compositor features or DMS handling
+layer-rule {
+    match namespace="^vicinae$"
+    shadow {
+        on
+        softness 16
+        spread 2
+        offset x=0 y=4
+        color "#000000cc"
+    }
+}
+
+// Waybar shadow (if using waybar)
+layer-rule {
+    match namespace="^waybar$"
+    shadow {
+        on
+        softness 16
+        spread -1
+        offset x=0 y=0
+        color "#000000cc"
+    }
+}
+
+// Notifications shadow
+layer-rule {
+    match namespace="^notifications$"
+    shadow {
+        on
+        softness 12
+        spread 0
+        offset x=0 y=4
+        color "#00000080"
+    }
+}
+
+// ==================
+// WINDOW RULES
+// ==================
+
+// Global corner radius for all windows
+window-rule {
+    geometry-corner-radius 12
+    clip-to-geometry true
+    draw-border-with-background false
+}
+
+// Inactive windows: 90% opacity
+window-rule {
+    match is-active=false
+    opacity 0.9
+}
+
+// File managers: 92% opacity
+window-rule {
+    match app-id=r#"^thunar$"#
+    opacity 0.92
+}
+window-rule {
+    match app-id=r#"^nemo$"#
+    opacity 0.92
+}
+window-rule {
+    match app-id=r#"^nautilus$"#
+    opacity 0.92
+}
+window-rule {
+    match app-id=r#"^org\.gnome\.Nautilus$"#
+    opacity 0.92
+    open-floating true
+}
+
+// WezTerm workaround
+window-rule {
+    match app-id=r#"^org\.wezfurlong\.wezterm$"#
+    default-column-width {}
+}
+
+// Calculators: floating
+window-rule {
+    match app-id=r#"^gnome-calculator$"#
+    open-floating true
+}
+window-rule {
+    match app-id=r#"^galculator$"#
+    open-floating true
+}
+
+// Bluetooth manager: floating
+window-rule {
+    match app-id=r#"^blueman-manager$"#
+    open-floating true
+}
+
+// Steam: floating
+window-rule {
+    match app-id=r#"^steam$"#
+    open-floating true
+}
+
+// XDG Portal: floating
+window-rule {
+    match app-id=r#"^xdg-desktop-portal"#
+    open-floating true
+}
+
+// Firefox PiP: floating
+window-rule {
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+
+// Zoom: floating
+window-rule {
+    match app-id=r#"^zoom$"#
+    open-floating true
+}
+
+// DMS/Quickshell windows: floating
+window-rule {
+    match app-id=r#"^org\.quickshell$"#
+    open-floating true
+}
+
+// Pavucontrol, nm-connection-editor, gnome-control-center: tiled
+window-rule {
+    match app-id=r#"^pavucontrol$"#
+    open-floating false
+}
+window-rule {
+    match app-id=r#"^nm-connection-editor$"#
+    open-floating false
+}
+window-rule {
+    match app-id=r#"^gnome-control-center$"#
+    open-floating false
+}
+
+// ==================
+// KEYBINDINGS
+// ==================
+binds {
+    // ==================
+    // APPLICATION LAUNCHERS
+    // ==================
+    Mod+Return hotkey-overlay-title="Terminal: Ghostty" { spawn "ghostty" "+new-window"; }
+    Mod+E hotkey-overlay-title="File Manager: Nautilus" { spawn "nautilus"; }
+    Mod+B hotkey-overlay-title="Browser: Zen" { spawn "zen-browser"; }
+    Mod+Shift+B hotkey-overlay-title="Browser: Helium" { spawn "helium-browser"; }
+
+    // ==================
+    // VICINAE CONTROLS
+    // ==================
+    Mod+Space hotkey-overlay-title="Vicinae Toggle" { spawn "vicinae" "toggle"; }
+    Mod+V hotkey-overlay-title="Vicinae Clipboard" { spawn "vicinae" "vicinae://extensions/vicinae/clipboard/history"; }
+    Mod+Period hotkey-overlay-title="Vicinae Emoji" { spawn "vicinae" "vicinae://extensions/vicinae/core/search-emojis"; }
+
+    // ==================
+    // DMS CONTROLS
+    // ==================
+    Alt+Space hotkey-overlay-title="DMS Spotlight" { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
+    Alt+V hotkey-overlay-title="DMS Clipboard" { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
+    Mod+Comma hotkey-overlay-title="DMS Settings" { spawn "dms" "ipc" "call" "settings" "focusOrToggle"; }
+    Mod+N hotkey-overlay-title="DMS Notifications" { spawn "dms" "ipc" "call" "notifications" "toggle"; }
+    Mod+Y hotkey-overlay-title="DMS Wallpaper" { spawn "dms" "ipc" "call" "dankdash" "wallpaper"; }
+    Mod+Tab hotkey-overlay-title="DMS Overview" { spawn "dms" "ipc" "call" "hypr" "toggleOverview"; }
+    Alt+Comma hotkey-overlay-title="DMS Control Center" { spawn "dms" "ipc" "call" "control-center" "toggle"; }
+    Mod+Shift+N hotkey-overlay-title="DMS Notepad" { spawn "dms" "ipc" "call" "notepad" "toggle"; }
+    Mod+M hotkey-overlay-title="DMS Process List" { spawn "dms" "ipc" "call" "processlist" "focusOrToggle"; }
+
+    // DMS Cheat Sheet
+    Mod+Shift+Slash hotkey-overlay-title="DMS Keybinds" { spawn "dms" "ipc" "call" "keybinds" "toggle" "niri"; }
+
+    // ==================
+    // SECURITY
+    // ==================
+    Mod+Alt+L hotkey-overlay-title="Lock Screen" { spawn "dms" "ipc" "call" "lock" "lock"; }
+    Mod+Shift+E { quit; }
+    Mod+Escape hotkey-overlay-title="Power Menu" { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
+    Ctrl+Alt+Delete hotkey-overlay-title="Process List" { spawn "dms" "ipc" "call" "processlist" "focusOrToggle"; }
+
+    // ==================
+    // AUDIO CONTROLS (DMS)
+    // ==================
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "increment" "5"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "decrement" "5"; }
+    XF86AudioMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "mute"; }
+    XF86AudioMicMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "micmute"; }
+
+    // ==================
+    // BRIGHTNESS CONTROLS (DMS)
+    // ==================
+    XF86MonBrightnessUp allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "increment" "5" ""; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "decrement" "5" ""; }
+
+    // ==================
+    // MEDIA CONTROLS (DMS)
+    // ==================
+    XF86AudioNext allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "next"; }
+    XF86AudioPause allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "playPause"; }
+    XF86AudioPlay allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "playPause"; }
+    XF86AudioPrev allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "previous"; }
+
+    // ==================
+    // WINDOW MANAGEMENT
+    // ==================
+    Mod+Q repeat=false { close-window; }
+    Mod+F { maximize-column; }
+    Mod+Shift+F { fullscreen-window; }
+    Mod+Shift+T { toggle-window-floating; }
+    Mod+W { toggle-column-tabbed-display; }
+
+    // ==================
+    // NIRI OVERVIEW
+    // ==================
+    Mod+O repeat=false { toggle-overview; }
+
+    // ==================
+    // FOCUS NAVIGATION (arrows + vim keys)
+    // ==================
+    Mod+Left { focus-column-left; }
+    Mod+Down { focus-window-down; }
+    Mod+Up { focus-window-up; }
+    Mod+Right { focus-column-right; }
+    Mod+H { focus-column-left; }
+    Mod+J { focus-window-down; }
+    Mod+K { focus-window-up; }
+    Mod+L { focus-column-right; }
+
+    // ==================
+    // WINDOW MOVEMENT
+    // ==================
+    Mod+Ctrl+Left { move-column-left; }
+    Mod+Ctrl+Down { move-window-down; }
+    Mod+Ctrl+Up { move-window-up; }
+    Mod+Ctrl+Right { move-column-right; }
+    Mod+Ctrl+H { move-column-left; }
+    Mod+Ctrl+J { move-window-down; }
+    Mod+Ctrl+K { move-window-up; }
+    Mod+Ctrl+L { move-column-right; }
+
+    // Shift+arrows for moving windows (hyprland style)
+    Mod+Shift+Left { move-column-left; }
+    Mod+Shift+Down { move-window-down; }
+    Mod+Shift+Up { move-window-up; }
+    Mod+Shift+Right { move-column-right; }
+
+    // ==================
+    // MONITOR NAVIGATION
+    // ==================
+    Mod+Shift+H { focus-monitor-left; }
+    Mod+Shift+J { focus-monitor-down; }
+    Mod+Shift+K { focus-monitor-up; }
+    Mod+Shift+L { focus-monitor-right; }
+
+    // ==================
+    // MOVE TO MONITOR
+    // ==================
+    Mod+Shift+Ctrl+Left { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+Down { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+Up { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
+    Mod+Shift+Ctrl+H { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+J { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+K { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+L { move-column-to-monitor-right; }
+
+    // ==================
+    // COLUMN NAVIGATION
+    // ==================
+    Mod+Home { focus-column-first; }
+    Mod+End { focus-column-last; }
+    Mod+Ctrl+Home { move-column-to-first; }
+    Mod+Ctrl+End { move-column-to-last; }
+
+    // ==================
+    // WORKSPACE NAVIGATION
+    // ==================
+    Mod+Page_Down { focus-workspace-down; }
+    Mod+Page_Up { focus-workspace-up; }
+    Mod+U { focus-workspace-down; }
+    Mod+I { focus-workspace-up; }
+    Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
+    Mod+Ctrl+Page_Up { move-column-to-workspace-up; }
+    Mod+Ctrl+U { move-column-to-workspace-down; }
+    Mod+Ctrl+I { move-column-to-workspace-up; }
+
+    // ==================
+    // MOVE WORKSPACE (reorder)
+    // ==================
+    Mod+Shift+Page_Down { move-workspace-down; }
+    Mod+Shift+Page_Up { move-workspace-up; }
+    Mod+Shift+U { move-workspace-down; }
+    Mod+Shift+I { move-workspace-up; }
+
+    // ==================
+    // MOUSE WHEEL NAVIGATION
+    // ==================
+    Mod+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp cooldown-ms=150 { focus-workspace-up; }
+    Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
+    Mod+Ctrl+WheelScrollUp cooldown-ms=150 { move-column-to-workspace-up; }
+
+    // ==================
+    // NUMBERED WORKSPACES
+    // ==================
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    Mod+0 { focus-workspace 10; }
+
+    // ==================
+    // MOVE TO NUMBERED WORKSPACES
+    // ==================
+    Mod+Ctrl+1 { move-column-to-workspace 1; }
+    Mod+Ctrl+2 { move-column-to-workspace 2; }
+    Mod+Ctrl+3 { move-column-to-workspace 3; }
+    Mod+Ctrl+4 { move-column-to-workspace 4; }
+    Mod+Ctrl+5 { move-column-to-workspace 5; }
+    Mod+Ctrl+6 { move-column-to-workspace 6; }
+    Mod+Ctrl+7 { move-column-to-workspace 7; }
+    Mod+Ctrl+8 { move-column-to-workspace 8; }
+    Mod+Ctrl+9 { move-column-to-workspace 9; }
+    Mod+Ctrl+0 { move-column-to-workspace 10; }
+
+    // ==================
+    // SCRATCHPAD (using overview since niri lacks special workspaces)
+    // ==================
+    Mod+S repeat=false { toggle-overview; }
+
+    // ==================
+    // COLUMN MANAGEMENT
+    // ==================
+    Mod+BracketLeft { consume-or-expel-window-left; }
+    Mod+BracketRight { consume-or-expel-window-right; }
+
+    // ==================
+    // SIZING & LAYOUT
+    // ==================
+    Mod+R { switch-preset-column-width; }
+    Mod+Shift+R { switch-preset-window-height; }
+    Mod+C { center-column; }
+    Mod+Ctrl+C { center-visible-columns; }
+    Mod+Ctrl+F { expand-column-to-available-width; }
+
+    // ==================
+    // MANUAL SIZING
+    // ==================
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Equal { set-column-width "+10%"; }
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
+
+    // ==================
+    // SCREENSHOTS
+    // ==================
+    Mod+P hotkey-overlay-title="Screenshot: Region" { spawn-sh "flameshot gui --raw | wl-copy"; }
+    Mod+Shift+P hotkey-overlay-title="Screenshot: Delayed" { spawn "flameshot" "gui" "-d" "2000"; }
+    Print { screenshot; }
+    Ctrl+Print { screenshot-screen; }
+    Alt+Print { screenshot-window; }
+
+    // ==================
+    // ALT-TAB WINDOW SWITCHING
+    // ==================
+    Alt+Tab { focus-window-down-or-column-right; }
+    Alt+Shift+Tab { focus-window-up-or-column-left; }
+
+    // ==================
+    // CAPSLOCK REMAPPING (Arrow keys via wtype)
+    // ==================
+    // Note: Requires caps:none or similar xkb option
+    // Uncomment if using caps remapping
+    // Caps_Lock+I { spawn "wtype" "-k" "up"; }
+    // Caps_Lock+J { spawn "wtype" "-k" "left"; }
+    // Caps_Lock+K { spawn "wtype" "-k" "down"; }
+    // Caps_Lock+L { spawn "wtype" "-k" "right"; }
+    // Caps_Lock+U { spawn "wtype" "-k" "Page_Up"; }
+    // Caps_Lock+O { spawn "wtype" "-k" "Page_Down"; }
+
+    // ==================
+    // POWER OFF MONITORS
+    // ==================
+    Mod+Ctrl+Shift+P { power-off-monitors; }
+
+    // ==================
+    // SHOW HOTKEY OVERLAY
+    // ==================
+    Mod+Shift+Question { show-hotkey-overlay; }
+}
