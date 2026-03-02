@@ -13,6 +13,7 @@ export PATH="$HOME/.bun/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/home/ruxir/.lmstudio/bin:$PATH"
 export PATH="/home/ruxir/.opencode/bin:$PATH"
+export PATH="$HOME/.config/emacs/bin:$PATH"
 
 # depot_tools
 [[ -d "$HOME/Applications/depot_tools" ]] && export PATH="$HOME/Applications/depot_tools:$PATH"
@@ -102,7 +103,7 @@ bindkey '^W' backward-kill-word
 # -------------------------------
 # History
 # -------------------------------
-HISTSIZE=5000
+HISTSIZE=10000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
 setopt appendhistory sharehistory
@@ -121,8 +122,8 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 # -------------------------------
 # Environment
 # -------------------------------
-export EDITOR=nvim
-export VISUAL=nvim
+export EDITOR=helix
+export VISUAL=code
 export MANROFFOPT="-c"
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
@@ -130,7 +131,8 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # Aliases
 # -------------------------------
 alias c='clear'
-alias vim='nvim'
+alias vim='helix'
+alias emacs="emacsclient -c -a 'emacs'"
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -202,23 +204,23 @@ edit_zsh_config() { $EDITOR ~/.zshrc }
 # Lazy-loaded tools (HUGE SPEED BOOST)
 # -------------------------------
 
-# NVM lazy load
-export NVM_DIR="$HOME/.nvm"
-nvm() {
-  unset -f nvm
-  [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
-  nvm "$@"
-}
-
-# Auto-load default Node version silently when npm/node is used
-load-nvm() {
-  unset -f node npm npx
-  [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
-}
-
-node() { load-nvm; node "$@"; }
-npm()  { load-nvm; npm "$@"; }
-npx()  { load-nvm; npx "$@"; }
+# # NVM lazy load
+# export NVM_DIR="$HOME/.nvm"
+# nvm() {
+#   unset -f nvm
+#   [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+#   nvm "$@"
+# }
+#
+# # Auto-load default Node version silently when npm/node is used
+# load-nvm() {
+#   unset -f node npm npx
+#   [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+# }
+#
+# node() { load-nvm; node "$@"; }
+# npm()  { load-nvm; npm "$@"; }
+# npx()  { load-nvm; npx "$@"; }
 
 # -------------------------------
 # Shell integrations
@@ -237,3 +239,4 @@ eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
 
 # opencode
 export PATH=/home/ruxir/.opencode/bin:$PATH
+alias oc=opencode

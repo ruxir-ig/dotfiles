@@ -1,0 +1,7 @@
+[Unit]
+Description=Generate Steam (NVIDIA) shortcuts
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash -lc 'sleep 2; %h/.local/bin/gen-steam-nvidia-shortcuts'
+

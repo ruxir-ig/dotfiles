@@ -1,0 +1,35 @@
+[Added Associations]
+application/pdf=zen.desktop;
+image/jpeg=ristretto-2.desktop;org.xfce.ristretto.desktop;
+image/png=org.kde.gwenview.desktop;
+text/css=org.gnome.gedit.desktop;
+text/html=zen.desktop;
+text/x-csrc=nvim.desktop;
+video/mp4=ristretto.desktop;mpv.desktop;
+x-scheme-handler/http=zen.desktop;
+x-scheme-handler/https=zen.desktop;
+x-scheme-handler/chrome=zen.desktop;
+
+[Default Applications]
+application/pdf=zen.desktop
+application/x-extension-htm=zen.desktop
+application/x-extension-html=zen.desktop
+application/x-extension-shtml=zen.desktop
+application/x-extension-xht=zen.desktop
+application/x-extension-xhtml=zen.desktop
+application/xhtml+xml=zen.desktop
+image/jpeg=ristretto-2.desktop;
+image/png=org.kde.gwenview.desktop
+text/css=org.gnome.gedit.desktop
+text/html=zen.desktop
+text/x-csrc=nvim.desktop
+video/mp4=mpv.desktop
+x-scheme-handler/chrome=zen.desktop
+x-scheme-handler/discord=vesktop.desktop
+x-scheme-handler/heroic=heroic.desktop
+x-scheme-handler/http=zen.desktop
+x-scheme-handler/https=zen.desktop
+x-scheme-handler/opencode=OpenCode-handler.desktop
+x-scheme-handler/about=helium.desktop
+x-scheme-handler/unknown=helium.desktop
+x-scheme-handler/postman=Postman.desktop
