@@ -1,0 +1,9 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =7
+let g:netrw_dirhist_7='/home/ruxir/.config/hypr'
+let g:netrw_dirhist_6='/home/ruxir/.config/rofi'
+let g:netrw_dirhist_5='/home/ruxir/.config/waybar'
+let g:netrw_dirhist_4='/home/ruxir/.config/rofi'
+let g:netrw_dirhist_3='/home/ruxir/.config/ghostty'
+let g:netrw_dirhist_2='/home/ruxir/.config/waybar'
+let g:netrw_dirhist_1='/home/ruxir/.config/hypr'
