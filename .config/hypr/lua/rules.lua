@@ -33,7 +33,7 @@ local browsers = table.concat({
 }, "|")
 local browser_class = "^(" .. browsers .. ")$"
 
-window("file-manager-opacity", { class = "^(thunar|nemo|nautilus)$" }, { opacity = "0.8" })
+window("file-manager-opacity", { class = "^(thunar|nemo|nautilus|org\\.gnome\\.Nautilus)$" }, { opacity = "0.8" })
 
 window("gnome-rounding", { class = "^(org\\.gnome\\.).*$" }, { rounding = 12 })
 window("gnome-no-decoration", { class = "^(org\\.gnome\\.).*$" }, { decorate = false })
