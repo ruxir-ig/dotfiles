@@ -4,6 +4,12 @@
       "models": [
         "qwen3-vl:latest"
       ]
+    },
+    "pi": {
+      "models": [
+        "qwen3-vl"
+      ]
     }
-  }
+  },
+  "last_selection": "pi"
 }

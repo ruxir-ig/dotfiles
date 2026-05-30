@@ -10,7 +10,7 @@ end
 
 sh(mod .. " + Return", "ghostty")
 sh("ALT + Return", "limux")
-sh(mod .. " + E", "nemo")
+sh(mod .. " + E", "nautilus")
 sh("ALT + E", "dolphin")
 sh(mod .. " + B", "zen-browser")
 sh(mod .. " + SHIFT + B", "helium-browser")

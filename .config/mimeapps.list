@@ -21,6 +21,7 @@ application/x-extension-xhtml=zen.desktop
 application/xhtml+xml=zen.desktop
 image/jpeg=ristretto-2.desktop;
 image/png=zen-browser.desktop;
+inode/directory=org.gnome.Nautilus.desktop
 text/css=org.gnome.gedit.desktop
 text/html=zen.desktop
 text/x-csrc=nvim.desktop
