@@ -1,5 +1,5 @@
 # Font Configuration
-font-family = GeistMono Nerd Font Mono
+font-family = Berkeley Mono
 font-size = 13
 
 # Window Configuration
@@ -7,44 +7,33 @@ window-decoration = false
 window-padding-x = 15
 window-padding-y = 15
 background-opacity = 0.7
-background-blur-radius = 32
+background-blur = 32
 unfocused-split-opacity = 0
 
 # Cursor Configuration
 cursor-style-blink = true
-
+cursor-style = block
 # Scrollback
 scrollback-limit = 25000
-
-# Terminal features
-mouse-hide-while-typing = true
-confirm-close-surface = false
-quit-after-last-window-closed = true
-quit-after-last-window-closed-delay = 5m
-copy-on-select=true
 
 # Disable annoying copied to clipboard
 app-notifications = no-clipboard-copy,no-config-reload
 
-# Key bindings for common actions
-# keybind = ctrl+c=copy_to_clipboard
-# keybind = ctrl+v=paste_from_clipboard
-# keybind = ctrl+shift+n=new_window
-# keybind = ctrl+plus=increase_font_size:1
-# keybind = ctrl+minus=decrease_font_size:1
-# keybind = ctrl+zero=reset_font_size
-#
+
 # Material 3 UI elements
 unfocused-split-opacity = 0.7
 unfocused-split-fill = #44464f
 
 # Shell integration
-shell-integration = detect
-shell-integration-features = cursor,sudo,title,no-cursor
-keybind = shift+enter=text:\n
+shell-integration = zsh
+shell-integration-features = no-cursor
 
 # Rando stuff
-#gtk-single-instance = true
+gtk-single-instance = true
 
 # Dank color generation
 config-file = ./themes/dankcolors
+
+# Clipboard configuration
+copy-on-select = "clipboard"
+

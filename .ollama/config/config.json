@@ -1,0 +1,9 @@
+{
+  "integrations": {
+    "claude": {
+      "models": [
+        "qwen3-vl:latest"
+      ]
+    }
+  }
+}

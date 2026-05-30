@@ -1,31 +1,18 @@
-/* Material Design color mapping for One Dark theme */
-/* This maps your One Dark colors to the Material Design tokens used in style.css */
+/* Material You dark fallback - overwritten by matugen */
 
-@define-color surface-container #282c34;
-/* bg0 */
-@define-color surface-container-high #2c313a;
-/* bg2 */
-@define-color on-surface #abb2bf;
-/* fg */
-@define-color outline #5c6370;
-/* grey0 */
+@define-color surface-container #211f22;
+@define-color surface-container-high #2b292c;
+@define-color on-surface #e8e0e8;
+@define-color outline #978e98;
 
-@define-color primary #61afef;
-/* blue */
-@define-color on-primary #282c34;
-/* bg0 */
+@define-color primary #e2b7f4;
+@define-color on-primary #4a2063;
 
-@define-color secondary #c678dd;
-/* purple */
-@define-color on-secondary #282c34;
-/* bg0 */
+@define-color secondary #cfc2d0;
+@define-color on-secondary #36323a;
 
-@define-color tertiary #98c379;
-/* green */
-@define-color on-tertiary #282c34;
-/* bg0 */
+@define-color tertiary #efb8c8;
+@define-color on-tertiary #4a2532;
 
-@define-color error #e08c75;
-/* red */
-@define-color on-error #282c34;
-/* bg0 */
+@define-color error #ffb4ab;
+@define-color on-error #690005;

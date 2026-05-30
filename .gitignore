@@ -2,6 +2,9 @@
 .config/fish/fish_variables
 .config/fish/completions/
 
+# Helix runtime cache/cloned grammars
+.config/helix/runtime/
+
 # Btop themes (usually from package manager)
 .config/btop/themes/
 

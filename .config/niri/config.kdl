@@ -19,7 +19,10 @@ input {
 
     touchpad {
         tap
+        dwt
         natural-scroll
+        click-method "clickfinger"
+        drag false
     }
 }
 
@@ -93,21 +96,22 @@ layout {
         proportion 0.33333
         proportion 0.5
         proportion 0.66667
+        proportion 1.0
     }
 
-    default-column-width { proportion 0.5; }
+    default-column-width { proportion 0.66667; }
 
     focus-ring {
         width 2
-        active-color "#c4c0ff"
-        inactive-color "#928f99"
+        active-color "#707070"
+        inactive-color "#d0d0d0"
     }
 
     border {
         off
-        width 2
-        active-color "#c4c0ff"
-        inactive-color "#928f99"
+        width 0
+        active-color "#707070"
+        inactive-color "#d0d0d0"
     }
 
     shadow {
@@ -115,7 +119,8 @@ layout {
         softness 30
         spread 5
         offset x=0 y=5
-        color "#00000070"
+        color "#6fb8e355"
+        inactive-color "#30486077"
     }
 }
 
@@ -145,11 +150,62 @@ hotkey-overlay {
 // ANIMATIONS
 // ==================
 animations {
-    // Uncomment to disable all animations
-    // off
+    // Hyprland md3/menu curves mapped to niri cubic-bezier animations.
 
-    // Slow down all animations (values below 1 speed them up)
-    // slowdown 1.0
+    workspace-switch {
+        duration-ms 420
+        curve "cubic-bezier" 0.1 1.0 0.0 1.0
+    }
+
+    window-open {
+        duration-ms 180
+        curve "cubic-bezier" 0.05 0.7 0.1 1.0
+    }
+
+    window-close {
+        duration-ms 140
+        curve "cubic-bezier" 0.3 0.0 0.8 0.15
+    }
+
+    horizontal-view-movement {
+        duration-ms 420
+        curve "cubic-bezier" 0.1 1.0 0.0 1.0
+    }
+
+    window-movement {
+        duration-ms 180
+        curve "cubic-bezier" 0.05 0.7 0.1 1.0
+    }
+
+    window-resize {
+        duration-ms 180
+        curve "cubic-bezier" 0.05 0.7 0.1 1.0
+    }
+
+    overview-open-close {
+        duration-ms 420
+        curve "cubic-bezier" 0.1 1.0 0.0 1.0
+    }
+
+    config-notification-open-close {
+        duration-ms 120
+        curve "cubic-bezier" 0.1 1.0 0.0 1.0
+    }
+
+    exit-confirmation-open-close {
+        duration-ms 180
+        curve "cubic-bezier" 0.05 0.7 0.1 1.0
+    }
+
+    screenshot-ui-open {
+        duration-ms 120
+        curve "cubic-bezier" 0.1 1.0 0.0 1.0
+    }
+
+    recent-windows-close {
+        duration-ms 140
+        curve "cubic-bezier" 0.3 0.0 0.8 0.15
+    }
 }
 
 // ==================
@@ -162,13 +218,31 @@ overview {
 }
 
 // ==================
-// LAYER RULES (DMS Integration + Blur)
+// LAYER RULES (DMS Integration + Native Blur)
 // ==================
 
-// DMS Quickshell: place in overview backdrop
+// DMS Quickshell panels/popups: Hypr-style frosted layers.
 layer-rule {
     match namespace="^quickshell$"
-    place-within-backdrop true
+    opacity 0.80
+    geometry-corner-radius 12
+
+    background-effect {
+        blur true
+        noise 0.05
+        saturation 1.5
+    }
+
+    popups {
+        opacity 0.80
+        geometry-corner-radius 10
+
+        background-effect {
+            blur true
+            noise 0.05
+            saturation 1.5
+        }
+    }
 }
 
 // DMS blur wallpaper layer
@@ -177,11 +251,55 @@ layer-rule {
     place-within-backdrop true
 }
 
-// Vicinae: shadow + blur (niri layer blur is limited)
-// Note: Niri doesn't have built-in blur like Hyprland
-// Blur for layers requires external compositor features or DMS handling
+// DMS shell blur, matching the Hyprland dms:.* layer rules.
+layer-rule {
+    match namespace="^dms:.*$"
+    opacity 0.80
+    geometry-corner-radius 12
+
+    background-effect {
+        blur true
+        xray false
+        noise 0.05
+        saturation 1.5
+    }
+
+    popups {
+        opacity 0.80
+        geometry-corner-radius 10
+
+        background-effect {
+            blur true
+            xray false
+            noise 0.05
+            saturation 1.5
+        }
+    }
+}
+
+// Vicinae launcher: rounded native blur for launcher and menus.
 layer-rule {
     match namespace="^vicinae$"
+    opacity 0.80
+    geometry-corner-radius 12
+
+    background-effect {
+        blur true
+        noise 0.05
+        saturation 1.5
+    }
+
+    popups {
+        opacity 0.80
+        geometry-corner-radius 10
+
+        background-effect {
+            blur true
+            noise 0.05
+            saturation 1.5
+        }
+    }
+
     shadow {
         on
         softness 16
@@ -191,9 +309,29 @@ layer-rule {
     }
 }
 
-// Waybar shadow (if using waybar)
+// Waybar panels/popups: frosted glass with clipped rounded geometry.
 layer-rule {
     match namespace="^waybar$"
+    opacity 0.80
+    geometry-corner-radius 12
+
+    background-effect {
+        blur true
+        noise 0.05
+        saturation 1.5
+    }
+
+    popups {
+        opacity 0.80
+        geometry-corner-radius 10
+
+        background-effect {
+            blur true
+            noise 0.05
+            saturation 1.5
+        }
+    }
+
     shadow {
         on
         softness 16
@@ -203,9 +341,20 @@ layer-rule {
     }
 }
 
+
+
 // Notifications shadow
 layer-rule {
     match namespace="^notifications$"
+    opacity 0.80
+    geometry-corner-radius 12
+
+    background-effect {
+        blur true
+        noise 0.05
+        saturation 1.5
+    }
+
     shadow {
         on
         softness 12
@@ -219,42 +368,110 @@ layer-rule {
 // WINDOW RULES
 // ==================
 
-// Global corner radius for all windows
+// Niri default window geometry: rounded and clipped, with no global transparency or blur.
+// Transparency and blur are applied only by targeted rules below.
 window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
     draw-border-with-background false
 }
 
-// Inactive windows: 90% opacity
-window-rule {
-    match is-active=false
-    opacity 0.9
-}
 
-// File managers: 92% opacity
+
+// File managers: targeted opacity 0.8 + blur.
 window-rule {
     match app-id=r#"^thunar$"#
-    opacity 0.92
+    opacity 0.80
+    geometry-corner-radius 12
+    clip-to-geometry true
+
+    background-effect {
+        blur true
+        noise 0.05
+        saturation 1.5
+    }
 }
 window-rule {
     match app-id=r#"^nemo$"#
-    opacity 0.92
+    opacity 0.80
+    geometry-corner-radius 12
+    clip-to-geometry true
+
+    background-effect {
+        blur true
+        noise 0.05
+        saturation 1.5
+    }
 }
 window-rule {
     match app-id=r#"^nautilus$"#
-    opacity 0.92
+    opacity 0.80
+    geometry-corner-radius 12
+    clip-to-geometry true
+
+    background-effect {
+        blur true
+        noise 0.05
+        saturation 1.5
+    }
 }
 window-rule {
     match app-id=r#"^org\.gnome\.Nautilus$"#
-    opacity 0.92
+    opacity 0.80
     open-floating true
+    geometry-corner-radius 12
+    clip-to-geometry true
+
+    background-effect {
+        blur true
+        noise 0.05
+        saturation 1.5
+    }
 }
 
-// WezTerm workaround
+
+
+// Transparent-capable apps: enable native blur without forcing opacity.
+// Opaque apps stay visually normal because no opacity is applied here.
 window-rule {
     match app-id=r#"^org\.wezfurlong\.wezterm$"#
     default-column-width {}
+
+    background-effect {
+        blur true
+        noise 0.05
+        saturation 1.5
+    }
+}
+
+window-rule {
+    match app-id=r#"^Alacritty$"#
+
+    background-effect {
+        blur true
+        noise 0.05
+        saturation 1.5
+    }
+}
+
+window-rule {
+    match app-id=r#"^com\.mitchellh\.ghostty$"#
+
+    background-effect {
+        blur true
+        noise 0.05
+        saturation 1.5
+    }
+}
+
+window-rule {
+    match app-id=r#"^kitty$"#
+
+    background-effect {
+        blur true
+        noise 0.05
+        saturation 1.5
+    }
 }
 
 // Calculators: floating
@@ -278,6 +495,18 @@ window-rule {
     match app-id=r#"^steam$"#
     open-floating true
 }
+window-rule {
+    match app-id=r#"^steam$"# title="^Friends List$"
+    open-floating true
+}
+window-rule {
+    match app-id=r#"^steam$"# title="^Steam - News$"
+    open-floating true
+}
+window-rule {
+    match app-id=r#"^steam_app_.*$"#
+    variable-refresh-rate true
+}
 
 // XDG Portal: floating
 window-rule {
@@ -285,10 +514,12 @@ window-rule {
     open-floating true
 }
 
-// Firefox PiP: floating
+// Firefox/Zen PiP: floating with Hyprland-like 480x270 size.
 window-rule {
-    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    match app-id=r#"^(firefox|zen)$"# title="^Picture-in-Picture$"
     open-floating true
+    default-column-width { fixed 480; }
+    default-window-height { fixed 270; }
 }
 
 // Zoom: floating
@@ -324,10 +555,14 @@ binds {
     // ==================
     // APPLICATION LAUNCHERS
     // ==================
-    Mod+Return hotkey-overlay-title="Terminal: Ghostty" { spawn "ghostty" "+new-window"; }
-    Mod+E hotkey-overlay-title="File Manager: Nautilus" { spawn "nautilus"; }
+    Alt+Return hotkey-overlay-title="Terminal: Ghostty" { spawn "ghostty"; }
+    Mod+Return hotkey-overlay-title="Terminal: Kitty" { spawn "kitty"; }
+    Mod+E hotkey-overlay-title="File Manager: Nemo" { spawn "nemo"; }
+    Alt+E hotkey-overlay-title="File Manager: Dolphin" { spawn "dolphin"; }
     Mod+B hotkey-overlay-title="Browser: Zen" { spawn "zen-browser"; }
     Mod+Shift+B hotkey-overlay-title="Browser: Helium" { spawn "helium-browser"; }
+    Mod+C hotkey-overlay-title="Editor: t3code" { spawn "t3code"; }
+    Mod+Z hotkey-overlay-title="Editor: Zed" { spawn "/home/ruxir/.local/zed.app/bin/zed"; }
 
     // ==================
     // VICINAE CONTROLS
@@ -346,6 +581,7 @@ binds {
     Mod+Y hotkey-overlay-title="DMS Wallpaper" { spawn "dms" "ipc" "call" "dankdash" "wallpaper"; }
     Mod+Tab hotkey-overlay-title="DMS Overview" { spawn "dms" "ipc" "call" "hypr" "toggleOverview"; }
     Alt+Comma hotkey-overlay-title="DMS Control Center" { spawn "dms" "ipc" "call" "control-center" "toggle"; }
+    Mod+Shift+Escape hotkey-overlay-title="DMS Process List" { spawn "dms" "ipc" "call" "processlist" "toggle"; }
     Mod+Shift+N hotkey-overlay-title="DMS Notepad" { spawn "dms" "ipc" "call" "notepad" "toggle"; }
     Mod+M hotkey-overlay-title="DMS Process List" { spawn "dms" "ipc" "call" "processlist" "focusOrToggle"; }
 
@@ -363,10 +599,10 @@ binds {
     // ==================
     // AUDIO CONTROLS (DMS)
     // ==================
-    XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "increment" "5"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "decrement" "5"; }
-    XF86AudioMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "mute"; }
-    XF86AudioMicMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "micmute"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"; }
+    XF86AudioMute allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioMicMute allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
 
     // ==================
     // BRIGHTNESS CONTROLS (DMS)
@@ -377,10 +613,10 @@ binds {
     // ==================
     // MEDIA CONTROLS (DMS)
     // ==================
-    XF86AudioNext allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "next"; }
-    XF86AudioPause allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "playPause"; }
-    XF86AudioPlay allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "playPause"; }
-    XF86AudioPrev allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "previous"; }
+    XF86AudioNext allow-when-locked=true { spawn "playerctl" "next"; }
+    XF86AudioPause allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPlay allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPrev allow-when-locked=true { spawn "playerctl" "previous"; }
 
     // ==================
     // WINDOW MANAGEMENT
@@ -390,6 +626,7 @@ binds {
     Mod+Shift+F { fullscreen-window; }
     Mod+Shift+T { toggle-window-floating; }
     Mod+W { toggle-column-tabbed-display; }
+    Mod+X hotkey-overlay-title="Close Window" repeat=false { close-window; }
 
     // ==================
     // NIRI OVERVIEW
@@ -499,16 +736,16 @@ binds {
     // ==================
     // MOVE TO NUMBERED WORKSPACES
     // ==================
-    Mod+Ctrl+1 { move-column-to-workspace 1; }
-    Mod+Ctrl+2 { move-column-to-workspace 2; }
-    Mod+Ctrl+3 { move-column-to-workspace 3; }
-    Mod+Ctrl+4 { move-column-to-workspace 4; }
-    Mod+Ctrl+5 { move-column-to-workspace 5; }
-    Mod+Ctrl+6 { move-column-to-workspace 6; }
-    Mod+Ctrl+7 { move-column-to-workspace 7; }
-    Mod+Ctrl+8 { move-column-to-workspace 8; }
-    Mod+Ctrl+9 { move-column-to-workspace 9; }
-    Mod+Ctrl+0 { move-column-to-workspace 10; }
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+6 { move-column-to-workspace 6; }
+    Mod+Shift+7 { move-column-to-workspace 7; }
+    Mod+Shift+8 { move-column-to-workspace 8; }
+    Mod+Shift+9 { move-column-to-workspace 9; }
+    Mod+Shift+0 { move-column-to-workspace 10; }
 
     // ==================
     // SCRATCHPAD (using overview since niri lacks special workspaces)
@@ -526,7 +763,7 @@ binds {
     // ==================
     Mod+R { switch-preset-column-width; }
     Mod+Shift+R { switch-preset-window-height; }
-    Mod+C { center-column; }
+    Mod+Shift+C { center-column; }
     Mod+Ctrl+C { center-visible-columns; }
     Mod+Ctrl+F { expand-column-to-available-width; }
 
@@ -558,6 +795,8 @@ binds {
     // ==================
     // Note: Requires caps:none or similar xkb option
     // Uncomment if using caps remapping
+    // CapsLock cannot be used as a modifier in niri keybinds.
+    // Keep the Hyprland-style intent documented here; implement this with xkb/kanata/keyd if needed.
     // Caps_Lock+I { spawn "wtype" "-k" "up"; }
     // Caps_Lock+J { spawn "wtype" "-k" "left"; }
     // Caps_Lock+K { spawn "wtype" "-k" "down"; }

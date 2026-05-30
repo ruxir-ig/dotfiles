@@ -5,6 +5,7 @@
 # -------------------------------
 # PATH logic
 # -------------------------------
+# Add ~/.local/bin (as $HOME/.local/bin) to PATH
 [[ ":$PATH:" != *":$HOME/.local/bin:"* ]] && export PATH="$HOME/.local/bin:$PATH"
 [[ ":$PATH:" != *":$HOME/bin:"* ]] && export PATH="$HOME/bin:$PATH"
 
@@ -12,8 +13,8 @@ export PATH="$PATH:/home/ruxir/.spicetify"
 export PATH="$HOME/.bun/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/home/ruxir/.lmstudio/bin:$PATH"
-export PATH="/home/ruxir/.opencode/bin:$PATH"
 export PATH="$HOME/.config/emacs/bin:$PATH"
+export PATH="/home/ruxir/.koyeb/bin:$PATH"
 
 # depot_tools
 [[ -d "$HOME/Applications/depot_tools" ]] && export PATH="$HOME/Applications/depot_tools:$PATH"
@@ -131,7 +132,7 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # Aliases
 # -------------------------------
 alias c='clear'
-alias vim='helix'
+alias vim='nvim'
 alias emacs="emacsclient -c -a 'emacs'"
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -144,10 +145,10 @@ alias egrep='egrep --color=auto'
 
 # Safe eza alias: use eza only if it both exists AND runs correctly
 if command -v eza >/dev/null 2>&1 && eza --version >/dev/null 2>&1; then
-    alias ls='eza -al --color=always --group-directories-first --icons'
-    alias la='eza -a --color=always --group-directories-first --icons'
-    alias ll='eza -l --color=always --group-directories-first --icons'
-    alias lt='eza -aT --color=always --group-directories-first --icons'
+    alias ls='eza -al --color=always --group-directories-first --icons=auto'
+    alias la='eza -a --color=always --group-directories-first --icons=auto'
+    alias ll='eza -l --color=always --group-directories-first --icons=auto'
+    alias lt='eza -aT --color=always --group-directories-first --icons=auto'
     alias l.="eza -a | grep -e '^\.'"
 else
     alias ls='ls --color'
@@ -173,12 +174,8 @@ alias q='pacman -Qs'
 alias lock='loginctl lock-session'
 alias hw='hwinfo --short'
 alias jctl="journalctl -p 3 -xb"
-
-# Fun
-alias please='sudo'
-alias apt='man pacman'
-alias apt-get='man pacman'
-alias tb='nc termbin.com 9999'
+alias litellm-docker-start='docker compose -f /home/ruxir/dev/reproduce/gpu_platform/infrastructure/docker/docker-compose.yml up -d --force-recreate --no-deps litellm'
+alias litellm-docker-stop='docker compose -f /home/ruxir/dev/reproduce/gpu_platform/infrastructure/docker/docker-compose.yml stop litellm postgres_litellm'
 
 # Gist sync
 alias gist='gh gist edit a287d06d1c776424622e8772d4eb56a0 -f .zshrc ~/.zshrc && echo "~/.zshrc synced to Gist!"'
@@ -237,6 +234,13 @@ command -v zoxide >/dev/null && eval "$(zoxide init --cmd cd zsh)"
 eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
 
 
+alias oc=opencode
+alias z=zed
+alias cc='codex --yolo -c '\''service_tier="fast"'\'''
+
 # opencode
 export PATH=/home/ruxir/.opencode/bin:$PATH
-alias oc=opencode
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/ruxir/.local/bin:$PATH"
