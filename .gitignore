@@ -31,6 +31,18 @@
 *.bak
 \#*\#
 
+# Nimble package manager state/packages
+.nimble/
+
+# IPython history (local usage data)
+.ipython/profile_default/history.sqlite
+
+# DMS auto-generated backups
+.config/hypr/.dms-backups/
+
+# Systemd user enable-state symlinks (machine-local)
+.config/systemd/user/*.target.wants/
+
 # OS files
 .DS_Store
 Thumbs.db

@@ -5,6 +5,12 @@
         "qwen3-vl:latest"
       ]
     },
+    "opencode": {
+      "models": [
+        "qwen3.5:9b",
+        "kimi-k2.7-code:cloud"
+      ]
+    },
     "pi": {
       "models": [
         "qwen3-vl"

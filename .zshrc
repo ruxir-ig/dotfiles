@@ -234,13 +234,19 @@ command -v zoxide >/dev/null && eval "$(zoxide init --cmd cd zsh)"
 eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
 
 
-alias oc=opencode
-alias z=zed
+alias z='zed .'
 alias cc='codex --yolo -c '\''service_tier="fast"'\'''
-
-# opencode
-export PATH=/home/ruxir/.opencode/bin:$PATH
-
+# Codex: fast service tier, YOLO mode, GPT-5.6-SOL, low reasoning effort
+alias ccf='codex --yolo --model gpt-5.6-sol -c '\''service_tier="fast"'\'' -c '\''model_reasoning_effort="low"'\'''
+alias oc='opencode'
+alias hx='helix'
 
 # Added by Antigravity CLI installer
 export PATH="/home/ruxir/.local/bin:$PATH"
+
+# Vite+ bin (https://viteplus.dev)
+. "$HOME/.vite-plus/env"
+export PATH="$HOME/.spicetify:$PATH"
+
+# nub
+export PATH="$HOME/.nub/bin:$PATH"

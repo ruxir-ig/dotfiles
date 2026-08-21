@@ -31,7 +31,7 @@ input {
 // ==================
 output "eDP-1" {
     mode "1920x1080@144.023"
-    scale 1.0
+    scale 1.2
     position x=0 y=0
 }
 
@@ -251,29 +251,33 @@ layer-rule {
     place-within-backdrop true
 }
 
-// DMS shell blur, matching the Hyprland dms:.* layer rules.
+// Global blur tuning only; does not enable blur by itself.
+blur {
+    passes 3
+    offset 6.0
+    noise 0.03
+    saturation 1.2
+}
+
+// Only blur DMS popout/card-like layer surfaces.
+// Do NOT match all dms:*.
+// Disable blur for the big notification center surface
 layer-rule {
-    match namespace="^dms:.*$"
-    opacity 0.80
-    geometry-corner-radius 12
+    match namespace="dms:notification-center-modal"
+
+    background-effect {
+        blur false
+        xray false
+    }
+}
+
+// Blur only standalone notification popups, if their surface is small enough
+layer-rule {
+    match namespace="dms:notification-popup"
 
     background-effect {
         blur true
         xray false
-        noise 0.05
-        saturation 1.5
-    }
-
-    popups {
-        opacity 0.80
-        geometry-corner-radius 10
-
-        background-effect {
-            blur true
-            xray false
-            noise 0.05
-            saturation 1.5
-        }
     }
 }
 
@@ -283,29 +287,11 @@ layer-rule {
     opacity 0.80
     geometry-corner-radius 12
 
-    background-effect {
-        blur true
-        noise 0.05
-        saturation 1.5
-    }
-
     popups {
         opacity 0.80
         geometry-corner-radius 10
 
-        background-effect {
-            blur true
-            noise 0.05
-            saturation 1.5
-        }
-    }
-
-    shadow {
-        on
-        softness 16
-        spread 2
-        offset x=0 y=4
-        color "#000000cc"
+        
     }
 }
 
@@ -315,54 +301,12 @@ layer-rule {
     opacity 0.80
     geometry-corner-radius 12
 
-    background-effect {
-        blur true
-        noise 0.05
-        saturation 1.5
-    }
-
     popups {
         opacity 0.80
         geometry-corner-radius 10
-
-        background-effect {
-            blur true
-            noise 0.05
-            saturation 1.5
-        }
-    }
-
-    shadow {
-        on
-        softness 16
-        spread -1
-        offset x=0 y=0
-        color "#000000cc"
     }
 }
 
-
-
-// Notifications shadow
-layer-rule {
-    match namespace="^notifications$"
-    opacity 0.80
-    geometry-corner-radius 12
-
-    background-effect {
-        blur true
-        noise 0.05
-        saturation 1.5
-    }
-
-    shadow {
-        on
-        softness 12
-        spread 0
-        offset x=0 y=4
-        color "#00000080"
-    }
-}
 
 // ==================
 // WINDOW RULES
@@ -433,9 +377,19 @@ window-rule {
 
 // Transparent-capable apps: enable native blur without forcing opacity.
 // Opaque apps stay visually normal because no opacity is applied here.
+
 window-rule {
-    match app-id=r#"^org\.wezfurlong\.wezterm$"#
-    default-column-width {}
+    match app-id=r#"^dms:.*$"#
+
+    background-effect {
+        blur true
+        noise 0.05
+        saturation 1.5
+    }
+}
+
+window-rule {
+    match app-id=r#"^quickshell$"#
 
     background-effect {
         blur true
@@ -463,7 +417,15 @@ window-rule {
         saturation 1.5
     }
 }
+window-rule {
+    match app-id=r#"^(firefox|zen)$"#
 
+    background-effect {
+        blur true
+        noise 0.05
+        saturation 1.5
+    }
+}
 window-rule {
     match app-id=r#"^kitty$"#
 
@@ -555,9 +517,9 @@ binds {
     // ==================
     // APPLICATION LAUNCHERS
     // ==================
-    Alt+Return hotkey-overlay-title="Terminal: Ghostty" { spawn "ghostty"; }
-    Mod+Return hotkey-overlay-title="Terminal: Kitty" { spawn "kitty"; }
-    Mod+E hotkey-overlay-title="File Manager: Nemo" { spawn "nemo"; }
+    Mod+Return hotkey-overlay-title="Terminal: Ghostty" { spawn "ghostty"; }
+    Alt+Return hotkey-overlay-title="Terminal: Kitty" { spawn "kitty"; }
+    Mod+E hotkey-overlay-title="File Manager: Nautilus" { spawn "nautilus"; }
     Alt+E hotkey-overlay-title="File Manager: Dolphin" { spawn "dolphin"; }
     Mod+B hotkey-overlay-title="Browser: Zen" { spawn "zen-browser"; }
     Mod+Shift+B hotkey-overlay-title="Browser: Helium" { spawn "helium-browser"; }
@@ -568,8 +530,8 @@ binds {
     // VICINAE CONTROLS
     // ==================
     Mod+Space hotkey-overlay-title="Vicinae Toggle" { spawn "vicinae" "toggle"; }
-    Mod+V hotkey-overlay-title="Vicinae Clipboard" { spawn "vicinae" "vicinae://extensions/vicinae/clipboard/history"; }
-    Mod+Period hotkey-overlay-title="Vicinae Emoji" { spawn "vicinae" "vicinae://extensions/vicinae/core/search-emojis"; }
+    Mod+V hotkey-overlay-title="Vicinae Clipboard" { spawn "vicinae" "vicinae://launch/clipboard/history"; }
+    Mod+Period hotkey-overlay-title="Vicinae Emoji" { spawn "vicinae" "vicinae://launch/core/search-emojis"; }
 
     // ==================
     // DMS CONTROLS
@@ -579,10 +541,8 @@ binds {
     Mod+Comma hotkey-overlay-title="DMS Settings" { spawn "dms" "ipc" "call" "settings" "focusOrToggle"; }
     Mod+N hotkey-overlay-title="DMS Notifications" { spawn "dms" "ipc" "call" "notifications" "toggle"; }
     Mod+Y hotkey-overlay-title="DMS Wallpaper" { spawn "dms" "ipc" "call" "dankdash" "wallpaper"; }
-    Mod+Tab hotkey-overlay-title="DMS Overview" { spawn "dms" "ipc" "call" "hypr" "toggleOverview"; }
     Alt+Comma hotkey-overlay-title="DMS Control Center" { spawn "dms" "ipc" "call" "control-center" "toggle"; }
     Mod+Shift+Escape hotkey-overlay-title="DMS Process List" { spawn "dms" "ipc" "call" "processlist" "toggle"; }
-    Mod+Shift+N hotkey-overlay-title="DMS Notepad" { spawn "dms" "ipc" "call" "notepad" "toggle"; }
     Mod+M hotkey-overlay-title="DMS Process List" { spawn "dms" "ipc" "call" "processlist" "focusOrToggle"; }
 
     // DMS Cheat Sheet
@@ -631,7 +591,7 @@ binds {
     // ==================
     // NIRI OVERVIEW
     // ==================
-    Mod+O repeat=false { toggle-overview; }
+    Mod+Tab repeat=false { toggle-overview; }
 
     // ==================
     // FOCUS NAVIGATION (arrows + vim keys)

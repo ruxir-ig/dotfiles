@@ -113,6 +113,7 @@ hl.bind(mod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" 
 hl.bind(mod .. " + bracketleft", hl.dsp.layout("preselect l"))
 hl.bind(mod .. " + bracketright", hl.dsp.layout("preselect r"))
 hl.bind(mod .. " + R", hl.dsp.layout("togglesplit"))
+sh(mod .. " + ALT + S", "~/.config/hypr/scripts/toggle-layout.sh", { description = "Toggle scrolling / dwindle layout" })
 dispatch(mod .. " + CTRL + F", "resizeactive exact 100%")
 
 hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true, description = "Move window" })
@@ -125,8 +126,8 @@ dispatch(mod .. " + equal", "resizeactive 10% 0", { repeating = true })
 dispatch(mod .. " + SHIFT + minus", "resizeactive 0 -10%", { repeating = true })
 dispatch(mod .. " + SHIFT + equal", "resizeactive 0 10%", { repeating = true })
 
-sh("SUPER + P", "flameshot gui --raw | wl-copy")
-sh("SUPER + SHIFT + P", "flameshot gui -d 2000")
+sh("ALT + S", "flameshot gui --raw | wl-copy")
+sh("ALT + SHIFT + S", "flameshot gui -d 2000")
 sh("Print", "flameshot full -p ~/Pictures/Screenshots/$(date +%Y%m%d_%H%M%S).png")
 
 sh("CAPS + I", "wtype -k up")
