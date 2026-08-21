@@ -29,9 +29,7 @@
     "mcp-server-context7": {
       "enabled": true,
       "remote": false,
-      "settings": {
-        "context7_api_key": "REDACTED"
-      }
+      "settings": {}
     }
   },
   "edit_predictions": {
